@@ -26,8 +26,8 @@ pub struct Map {
 
 impl Map {
     pub fn new() -> Map {
-        let height = 1000;
-        let width = 1000;
+        let height = 20;
+        let width = 20;
 
         let thin_map = generate_maze(height/2, width/2);
         let thick_map = thin_to_thick_maze(&thin_map.0, &thin_map.1);
