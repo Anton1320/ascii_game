@@ -1,4 +1,3 @@
-use lyon_geom::Angle;
 use ncurses::*;
 use crate::objects::*;
 
@@ -26,15 +25,11 @@ pub fn draw(camera: &Player) {
     let angle_of_view = &camera.camera_angle;
     let max_dist = camera.camera_dist;
 
-    for i in 0..height {
-        for j in 0..width {
-            mvaddch(i, j, ' ' as u32);
-        }
-    }
+    clear();
 
-    let mut line_height = 0;
+    let mut line_height;
     for (j, dist_and_object) in distances.iter().enumerate() {
-        if let Some((dist, intersection_point, object)) = dist_and_object {
+        if let Some((dist, intersection_point, _)) = dist_and_object {
             let cos = ((*angle_of_view) / width as f64 * (j as i32 - width / 2) as f64).radians.cos();
             let not_fish_dist = dist * cos;
             line_height = (0.33 * (height as f64) / not_fish_dist) as i32;
