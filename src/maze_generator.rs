@@ -44,7 +44,11 @@ pub fn generate_maze(height: usize, width: usize) -> (Vec<Vec<bool>>, Vec<Vec<bo
     }
 
     for j in 0..width {
-        down_wall[height-1][j] = true;
+        if rand::thread_rng().gen_bool(0.5) {
+            down_wall[height-1][j] = true;
+        } else {
+            down_wall[height-1][j] = false;
+        }
     }
     for j in 0..width-1 {
         if row[j] != row[j+1] {
@@ -52,7 +56,11 @@ pub fn generate_maze(height: usize, width: usize) -> (Vec<Vec<bool>>, Vec<Vec<bo
         }
     }
     for i in 0..height {
-        right_wall[i][width-1] = true;
+        if rand::thread_rng().gen_bool(0.5) {
+            right_wall[i][width-1] = true;
+        } else {
+            right_wall[i][width-1] = false;
+        }
     }
 
     (right_wall, down_wall)
