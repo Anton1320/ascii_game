@@ -1,3 +1,4 @@
+use std::io::stdin;
 use std::{f64::consts::PI, sync::mpsc::channel, thread};
 
 use std::time::{Instant};
@@ -37,9 +38,14 @@ fn main() {
     init_view();
     //keypad(stdscr(), true);
 
-    let mut player = Player::new(point(10.5, 10.5), vector(1., 0.), Angle { radians:PI*2./3. });
-    let map = Map::new();
+    let mut player = Player::new(point(0.5, 0.5), vector(1., 0.), Angle { radians:PI*2./3. });
+    let mut map = Map::new();
     player.set_camera_distances(&map);
+
+
+    //println!("{:?}", player.camera_distances);
+    //getch();
+
     draw(&player);
     //println!("{:?}", player.camera_distances);
     let left_turn_angle = Angle {radians:-PI*2./3.};
@@ -54,13 +60,18 @@ fn main() {
 
     let mut start;
     let mut duration;
+
+
     'main: loop {
         start = Instant::now();
         //println!("{}", player.pos.y);
        
         player.set_camera_distances(&map);
-        draw(&player);
+    
+        map.update_main_tile(&player.pos);
 
+        draw(&player);
+        //view::print_on_top(format!("{:?}", map.get_tile_pos_xy(&player.pos)));
         
 
         for event in rchan.try_iter() {
@@ -87,6 +98,7 @@ fn main() {
             } else if let EventType::KeyPress(Key::KeyQ) = &event.event_type {
                 break 'main;
             }
+            
         }
 
         duration = start.elapsed();
