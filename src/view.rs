@@ -19,6 +19,11 @@ fn get_char_by_dist(dist: f64, max_dist: f64) -> char {
     ASCII_CHARS.as_bytes()[i] as char
 }
 
+pub fn print_on_top<T: ToString>(s: T) {
+    mvaddstr(0, 0, &s.to_string());
+    refresh();
+}
+
 pub fn draw(camera: &Player) {
     let (height, width): (i32, i32) = (camera.camera_resolution.0 as i32, camera.camera_resolution.1 as i32);
     let distances = &camera.camera_distances;
